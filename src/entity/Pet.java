@@ -1,6 +1,5 @@
 package entity;
 
-
 public class Pet {
 	public enum TipoPet {
 		Cachorro, Gato;
@@ -11,17 +10,17 @@ public class Pet {
 	}
 
 	private NomeCompleto nomeCompletoPet;
-	private Endereco endereco;
-	private Integer peso;
-	private String raca;
-	private Double idade;
 	private TipoPet tipo;
 	private SexoPet sexo;
-
+	private Endereco endereco;
+	private Double idade;
+	private Integer peso;
+	private String raca;
 	
+
 	public Pet() {
 		super();
-		
+
 	}
 
 	public Pet(NomeCompleto nomeCompletoPet, TipoPet tipo, SexoPet sexo, Endereco endereco, Double idade, Integer peso,
@@ -40,33 +39,31 @@ public class Pet {
 			throw new IllegalArgumentException("Peso de animal inválido.");
 		}
 
-		if (this.nomeCompletoPet.getNome() == null || 
-				this.nomeCompletoPet.getSobrenome() == null) {
+		if (this.nomeCompletoPet.getNome() == null || this.nomeCompletoPet.getSobrenome() == null) {
 			throw new IllegalArgumentException("Os espaços nome e sobrenome devem ser preeenchidos.");
 		}
 
 		if (idade > 240) {
-			throw new 
-			IllegalArgumentException("Idade de animal inválida.");
+			throw new IllegalArgumentException("Idade de animal inválida.");
 		}
-		
+
 	}
-	
+
 	public String getPesoFormatado() {
-		if(this.peso == null) {
-			return "NÃO INFORMADO";		}
-	
-		return this.peso.toString();
-	}
-	
-	public String getIdadeFormatada() {
-		if(this.idade == null) {
+		if (this.peso == null) {
 			return "NÃO INFORMADO";
 		}
-	return this.idade.toString();
+
+		return this.peso.toString();
 	}
-	
-	
+
+	public String getIdadeFormatada() {
+		if (this.idade == null) {
+			return "NÃO INFORMADO";
+		}
+		return this.idade.toString();
+	}
+
 	public double getIdade() {
 		return idade;
 	}
@@ -128,7 +125,15 @@ public class Pet {
 			Double idadeAnos = idadeMeses / 12;
 			this.setIdade(idadeAnos);
 		}
+		
 
 	}
+
+	@Override
+	public String toString() {
+		return "1 - " + nomeCompletoPet + "\n2 - " + tipo + "\n3 - " + sexo + "\n4 - "
+				+ endereco + "\n5 - " + idade + "\n6 - " + peso + "\n7 - " + raca + "]";
+	}
+
 
 }

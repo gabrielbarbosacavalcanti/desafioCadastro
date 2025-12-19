@@ -1,5 +1,8 @@
 package main;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -8,10 +11,9 @@ import entity.Endereco;
 import entity.Pet;
 import entity.Pet.*;
 import entity.NomeCompleto;
-
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Scanner scan = new Scanner(System.in);
 		int opcao = 0;
 		System.out.println("Sistema cadastro de Pets:");
@@ -86,16 +88,30 @@ public class Main {
 
 					TipoPet tipoEscolhido = TipoPet.valueOf(tipoPet);
 					SexoPet sexoEscolhido = SexoPet.valueOf(sexoPet);
-
-					Pet novoPet = new Pet(nomeCompleto, tipoEscolhido, sexoEscolhido, endereco, entradaAnos, peso,
-							raca);
-					novoPet.getPesoFormatado();
-					novoPet.converterIdadeAnos(entradaAnos);
-
+					
+					
+							
+					List<Pet> pets = List.of(
+							new Pet(nomeCompleto, tipoEscolhido, sexoEscolhido, endereco, entradaAnos, peso,
+									raca)	
+							
+							);
+					
+					
+					try(PrintWriter pw = new PrintWriter(new FileWriter("desafioCadastro/petsCadastrados"))){
+						for(Pet p : pets) {
+							pw.println(p.toString());
+						}
+					}
+					
+					
+					
 				} catch (IllegalArgumentException e) {
 					System.out.println("Digite um tipo de pet válido(Cachorro/Gato). ");
 				}
-
+				
+				
+				
 			case 2:
 
 			}
