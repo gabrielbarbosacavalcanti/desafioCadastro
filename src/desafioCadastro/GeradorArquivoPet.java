@@ -17,5 +17,14 @@ public class GeradorArquivoPet {
 		String dataHora = agora.format(formatter);
 		
 		String petMaiusculo = nomepet.toUpperCase(Locale.ROOT);
+		
+		String nomeArquivo = dataHora + "-" + petMaiusculo + ".txt";
+		
+		Path diretorio = Path.of("desafioCadastro", "petsCadastrados");
+		Path caminhoFinal = diretorio.resolve(nomeArquivo);
+		
+		Files.createDirectories(diretorio);
+		
+		return caminhoFinal;
 	}
 }

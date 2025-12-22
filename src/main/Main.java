@@ -1,24 +1,26 @@
 package main;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import desafioCadastro.GeradorArquivoPet;
 import desafioCadastro.LeitorDeArquivo;
 import entity.Endereco;
 import entity.Pet;
 import entity.Pet.*;
-import entity.NomeCompleto;
+
 public class Main {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		Scanner scan = new Scanner(System.in);
-		int opcao = 0;
+		int opcao = 1;
 		System.out.println("Sistema cadastro de Pets:");
 
-		while (opcao != 6) {
+		while (opcao > 0 && opcao <= 6) {
 			System.out.println("1.Cadastrar um novo pet");
 			System.out.println("2.Alterar os dados do pet cadastrado");
 			System.out.println("3.Deletar um pet cadastrado");
@@ -45,29 +47,97 @@ public class Main {
 					System.out.println(linha);
 				}
 
+				Pet p = new Pet();
+				System.out.println();
+
+				boolean validoNome = true;
+				do {
+					System.out.println("1. ");
+					try {
+						
+						String nomePet = scan.next();
+						String sobrenomePet = scan.next();
+
+						p.setNome(nomePet);
+						p.setSobrenome(sobrenomePet);
+
+					} catch (IllegalArgumentException e ) {
+						System.out.println("Preencha todos os espaços.");
+						validoNome = false;
+
+					}
+					catch (InputMismatchException e) {
+						System.out.println("Digite apenas valores válidos");
+						validoNome = false;
+					}
+					
+				} while (validoNome != true);
+
+				System.out.println("Nome completo: " + p.getNome() + " " + p.getSobrenome());
+
+				scan.nextLine();
+				boolean tipoPetValido = true;
+				do {
+				System.out.print("2. ");
 				try {
-					System.out.print("1. ");
-					String nomePet = scan.nextLine();
-					String sobrenomePet = scan.nextLine();
-					System.out.print("2. ");
 					String tipoPet = scan.nextLine().toUpperCase();
-					System.out.print("3. ");
+					TipoPet tipoEscolhido = TipoPet.valueOf(tipoPet);
+					p.setTipo(tipoEscolhido);
+
+				} catch (IllegalArgumentException e) {
+					System.out.println("Digite um tipo de animal válido");
+					tipoPetValido = false;
+				}
+				catch (InputMismatchException e) {
+					System.out.println("Digite valores dentro padrão");
+					tipoPetValido = false;
+				}
+				}while(tipoPetValido != true);
+				
+				System.out.println("3. ");
+				try {
 					String sexoPet = scan.nextLine();
-					System.out.println("4. ");
-					System.out.println("Número da casa: ");
+					SexoPet sexoEscolhido = SexoPet.valueOf(sexoPet);
+					p.setSexo(sexoEscolhido);
+				} catch (IllegalArgumentException e) {
+					System.out.println("Digite um sexo válido para o Pet.");
+				}
+
+				System.out.println("4. ");
+				System.out.println("Número da casa: ");
+				try {
 					String numCasaPet = scan.nextLine();
 					System.out.println("Cidade: ");
 					String cidadePet = scan.nextLine();
 					System.out.println("Rua: ");
 					String ruaPet = scan.nextLine();
-					System.out.print("5.");
+
+					Endereco endereco = new Endereco(numCasaPet, cidadePet, ruaPet);
+					p.setEndereco(endereco);
+
+				} catch (InputMismatchException e) {
+					System.out.println("Digite somento valores válidos.");
+				}
+				System.out.print("5.");
+
+				try {
 					Double entradaAnos = scan.nextDouble();
+					p.setIdade(entradaAnos);
+				} catch (InputMismatchException e) {
+					System.out.println("Digite um valor de acordo com esperado.");
+				}
 
-					System.out.print("6. ");
-					
+				System.out.print("6. ");
+				try {
 					Integer peso = scan.nextInt();
+					p.setPeso(peso);
+				} catch (InputMismatchException e) {
+					System.out.println("Digite apenas digitos para o peso.");
+				}
+				System.out.println("");
 
-					System.out.print("7. ");
+				System.out.print("7. ");
+				try {
 					String raca = scan.nextLine();
 					boolean valido = false;
 					while (valido != true) {

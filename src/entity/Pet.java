@@ -9,7 +9,8 @@ public class Pet {
 		Masculino, Feminino;
 	}
 
-	private NomeCompleto nomeCompletoPet;
+	private String nome;
+	private String sobrenome;
 	private TipoPet tipo;
 	private SexoPet sexo;
 	private Endereco endereco;
@@ -23,11 +24,12 @@ public class Pet {
 
 	}
 
-	public Pet(NomeCompleto nomeCompletoPet, TipoPet tipo, SexoPet sexo, Endereco endereco, Double idade, Integer peso,
+	public Pet(String nome,String sobrenome, TipoPet tipo, SexoPet sexo, Endereco endereco, Double idade, Integer peso,
 			String raca) throws IllegalArgumentException {
 		super();
 
-		this.nomeCompletoPet = nomeCompletoPet;
+		this.nome = "NÃO INFORMADO";
+		this.sobrenome = "NÃO INFORMADO";
 		this.endereco = endereco;
 		this.peso = peso;
 		this.tipo = tipo;
@@ -39,12 +41,21 @@ public class Pet {
 			throw new IllegalArgumentException("Peso de animal inválido.");
 		}
 
-		if (this.nomeCompletoPet.getNome() == null || this.nomeCompletoPet.getSobrenome() == null) {
+		if (this.nome == null || this.sobrenome == null) {
 			throw new IllegalArgumentException("Os espaços nome e sobrenome devem ser preeenchidos.");
 		}
 
 		if (idade > 240) {
 			throw new IllegalArgumentException("Idade de animal inválida.");
+		}
+		
+			
+		if(this.tipo != TipoPet.Cachorro || this.tipo != TipoPet.Gato) {
+			throw new IllegalArgumentException("Valor para tipo de Pet inválido.");
+		
+		}
+		if(this.sexo != SexoPet.Masculino || this.sexo != SexoPet.Masculino ) {
+			throw new IllegalArgumentException();
 		}
 
 	}
@@ -112,12 +123,26 @@ public class Pet {
 		this.sexo = sexo;
 	}
 
-	public NomeCompleto getNomeCompletoPet() {
-		return nomeCompletoPet;
+	
+
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNomeCompletoPet(NomeCompleto nomeCompletoPet) {
-		this.nomeCompletoPet = nomeCompletoPet;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
+	
+	public String nomeformatado() {
+		return this.nome + this.sobrenome;
 	}
 
 	public void converterIdadeAnos(Double idadeMeses) {
@@ -131,7 +156,7 @@ public class Pet {
 
 	@Override
 	public String toString() {
-		return "1 - " + nomeCompletoPet + "\n2 - " + tipo + "\n3 - " + sexo + "\n4 - "
+		return "1 - " + nomeformatado() + "\n2 - " + tipo + "\n3 - " + sexo + "\n4 - "
 				+ endereco + "\n5 - " + idade + "\n6 - " + peso + "\n7 - " + raca + "]";
 	}
 
