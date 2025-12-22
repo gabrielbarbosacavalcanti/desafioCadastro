@@ -152,36 +152,22 @@ public class Main {
 
 						}
 					}
-
-					Endereco endereco = new Endereco(numCasaPet, cidadePet, ruaPet);
-					NomeCompleto nomeCompleto = new NomeCompleto(nomePet, sobrenomePet);
-
-					TipoPet tipoEscolhido = TipoPet.valueOf(tipoPet);
-					SexoPet sexoEscolhido = SexoPet.valueOf(sexoPet);
-					
-					
-							
-					List<Pet> pets = List.of(
-							new Pet(nomeCompleto, tipoEscolhido, sexoEscolhido, endereco, entradaAnos, peso,
-									raca)	
-							
-							);
-					
-					
-					try(PrintWriter pw = new PrintWriter(new FileWriter("desafioCadastro/petsCadastrados"))){
-						for(Pet p : pets) {
-							pw.println(p.toString());
-						}
-					}
-					
-					
-					
 				} catch (IllegalArgumentException e) {
-					System.out.println("Digite um tipo de pet válido(Cachorro/Gato). ");
+					System.out.println("Digite um nome de raça sem uso de caracteres especiais ou números.");
 				}
-				
-				
-				
+
+				List<Pet> pets = List.of(new Pet());
+				pets.add(p);
+
+				GeradorArquivoPet ge = new GeradorArquivoPet();
+				Path caminho = GeradorArquivoPet.gerarCaminho(pets.get(0).nomeformatado());
+
+				try (PrintWriter pw = new PrintWriter(new FileWriter(caminho.toFile()))) {
+					for (Pet p1 : pets) {
+						pw.println(p.toString());
+					}
+				}
+
 			case 2:
 
 			}
