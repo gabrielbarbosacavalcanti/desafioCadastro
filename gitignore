@@ -1,3 +1,4 @@
-.idea
-.code
-.vscode
+.idea/
+.vscode/
+/bin/
+*.class
