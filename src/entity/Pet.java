@@ -1,12 +1,16 @@
 package entity;
 
+import java.util.InputMismatchException;
+
+import exception.RacaInvalidaException;
+
 public class Pet {
 	public enum TipoPet {
-		Cachorro, Gato;
+		CACHORRO, GATO;
 	}
 
 	public enum SexoPet {
-		Masculino, Feminino;
+		MASCULINO, FEMININO;
 	}
 
 	private String nome;
@@ -14,68 +18,81 @@ public class Pet {
 	private TipoPet tipo;
 	private SexoPet sexo;
 	private Endereco endereco;
-	private Double idade;
+	private double idade;
 	private Integer peso;
 	private String raca;
-	
 
+	
 	public Pet() {
 		super();
 
 	}
-
-	public Pet(String nome,String sobrenome, TipoPet tipo, SexoPet sexo, Endereco endereco, Double idade, Integer peso,
-			String raca) throws IllegalArgumentException {
+	
+	public static boolean contemApenasNumeros(String valor) {
+		if(valor == null || valor.isEmpty()) {
+		return false;
+	}
+		for(char c : valor.toCharArray()) {
+			if(!Character.isDigit(c)) {
+				return false;
+			}
+		}
+		return true;
+}
+	
+	public Pet(String nome, String sobrenome, TipoPet tipo, SexoPet sexo, Endereco endereco, Double idade, Integer peso,
+			String raca)  {
 		super();
 
-		this.nome = "NÃO INFORMADO";
-		this.sobrenome = "NÃO INFORMADO";
+		if (peso == null ||peso < 0.5 || peso > 6) {
+			throw new IllegalArgumentException("Peso de animal inválido.");
+		}
+
+		if (nome == null || nome.isBlank() ) {
+			nome = "NÃO INFORMADO";
+		}
+		
+		if(sobrenome == null || sobrenome.isBlank()) {
+			sobrenome = "NÃO INFORMADO";
+		}
+		if(tipo == null) {
+			throw new IllegalArgumentException("Tipo do pet é obrigatorio.");
+		}
+		if (idade <= 0 || idade > 240) {
+			throw new IllegalArgumentException("Idade inválida.");
+		}
+		
+		if (sexo == null) {
+			throw new IllegalArgumentException("Sexo inválido.");
+		}
+		
+		if(contemApenasNumeros(endereco.getNumCasa()) == false) {
+			throw new InputMismatchException("Digite apenas valores esperados.");
+		}
+		
+		if(contemApenasNumeros(endereco.getCidade()) == true) {
+			
+		}
+		
+		if(contemApenasNumeros(peso.toString()) == false) {
+			throw new InputMismatchException("Digte um valor válido.");
+		}
+		
+		
+		
+		this.nome = nome;
+		this.sobrenome = sobrenome;
 		this.endereco = endereco;
 		this.peso = peso;
 		this.tipo = tipo;
 		this.sexo = sexo;
 		this.idade = idade;
-		this.raca = "NÃO INFORMADO";
-
-		if (peso < 0.5 || peso > 6) {
-			throw new IllegalArgumentException("Peso de animal inválido.");
-		}
-
-		if (this.nome == null || this.sobrenome == null) {
-			throw new IllegalArgumentException("Os espaços nome e sobrenome devem ser preeenchidos.");
-		}
-
-		if (idade > 240) {
-			throw new IllegalArgumentException("Idade de animal inválida.");
-		}
-		
-			
-		if(this.tipo != TipoPet.Cachorro || this.tipo != TipoPet.Gato) {
-			throw new IllegalArgumentException("Valor para tipo de Pet inválido.");
-		
-		}
-		if(this.sexo != SexoPet.Masculino || this.sexo != SexoPet.Masculino ) {
-			throw new IllegalArgumentException();
-		}
+		this.raca = (raca == null || raca.isBlank()) ? "NÃO INFORMADO" : raca;
 
 	}
-
-	public String getPesoFormatado() {
-		if (this.peso == null) {
-			return "NÃO INFORMADO";
-		}
-
-		return this.peso.toString();
-	}
-
-	public String getIdadeFormatada() {
-		if (this.idade == null) {
-			return "NÃO INFORMADO";
-		}
-		return this.idade.toString();
-	}
-
-	public double getIdade() {
+	
+	
+	public Double getIdade() {
 		return idade;
 	}
 
@@ -123,8 +140,6 @@ public class Pet {
 		this.sexo = sexo;
 	}
 
-	
-
 	public String getNome() {
 		return nome;
 	}
@@ -140,25 +155,32 @@ public class Pet {
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
 	}
-	
-	public String nomeformatado() {
-		return this.nome + this.sobrenome;
+
+	public String getNomeFormatado() {
+		return this.nome + " " + this.sobrenome;
 	}
 
-	public void converterIdadeAnos(Double idadeMeses) {
-		if (idadeMeses > 1 && idadeMeses <= 240) {
-			Double idadeAnos = idadeMeses / 12;
-			this.setIdade(idadeAnos);
-		}
-		
 
+	public static void validarRaca(String raca) throws RacaInvalidaException {
+
+		   for (char c : raca.toCharArray()) {
+		       if (!Character.isLetter(c)) {
+		           throw new RacaInvalidaException(
+		               "Raça inválida. Utilize apenas letras."
+		           );
+		       }
+		   }
+		
 	}
 
 	@Override
 	public String toString() {
-		return "1 - " + nomeformatado() + "\n2 - " + tipo + "\n3 - " + sexo + "\n4 - "
-				+ endereco + "\n5 - " + idade + "\n6 - " + peso + "\n7 - " + raca + "]";
+		return "1 - " + getNomeFormatado() + "\n2 - " + tipo + "\n3 - " + sexo + "\n4 - " + endereco + "\n5 - " + idade
+				+ "\n6 - " + peso + "\n7 - " + raca + "]";
 	}
 
-
+	public String formatarDados() {
+		return getNomeFormatado() + " - " + this.tipo + " - " + this.endereco.enderecoFormatado() + " - "
+				+ this.endereco.getCidade() + " -  " + this.idade + " anos" + " - " + this.peso + " kg" + " - " + this.raca;
+	}
 }

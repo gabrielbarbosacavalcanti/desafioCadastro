@@ -4,7 +4,7 @@
 
 3 - Qual o sexo do animal?
 
-4 - Qual endereço e bairro que ele foi encontrado?
+4 - Qual endereço que ele foi encontrado?
 
 5 - Qual a idade aproximada do pet?
 

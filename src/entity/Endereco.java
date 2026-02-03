@@ -10,9 +10,17 @@ public class Endereco {
 	}
 	
 	public Endereco(String numCasa, String cidade, String rua) {
-		this.numCasa = "NÃO INFORMADO";
+		this.numCasa = numCasa;
 		this.cidade = cidade;
 		this.rua = rua;
+		
+		if(this.numCasa == null) {
+			numCasa= "NÃO INFORMADO";
+		}
+	}
+	
+	public String enderecoFormatado() {
+		return this.rua+ ", " + this.numCasa ;
 	}
 	public String getNumCasa() {
 		return numCasa;
